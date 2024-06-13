@@ -1,7 +1,6 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 
 import AnimaleskoLogo from "~/assets/images/logo.png";
 import { GoogleLoginButton } from "~/components/google-login-button/GoogleLoginButton";
@@ -29,8 +28,8 @@ export default function Home() {
 
           <div className="flex flex-col gap-4 rounded-lg p-6">
             <GoogleLoginButton
-              onClick={() => {
-                signIn("google", {
+              onClick={async () => {
+                await signIn("google", {
                   callbackUrl: "/adocao",
                 });
               }}

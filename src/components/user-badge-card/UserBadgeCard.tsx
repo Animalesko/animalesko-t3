@@ -1,5 +1,4 @@
 import { Avatar, Badge, Card, CardBody } from "@nextui-org/react";
-import { useSession } from "next-auth/react";
 import React from "react";
 
 interface UserBadgeCardProps {
