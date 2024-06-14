@@ -1,6 +1,10 @@
 "use client";
 import {
   Button,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -21,7 +25,7 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
 
   return (
     <>
-      <Navbar className="bg-primary-900 flex flex-row items-center p-2">
+      <Navbar className="flex flex-row items-center bg-primary-900 p-2">
         <NavbarBrand>
           <Image
             src={AnimaleskoLogo}
@@ -34,27 +38,35 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
         <NavbarContent justify="end">
           {!!data?.user && (
             <NavbarItem>
-              <UserBadgeCard user={data.user} />
+              <Dropdown>
+                <DropdownTrigger>
+                  <Button className="h-auto bg-transparent p-0">
+                    <UserBadgeCard user={data.user} />
+                  </Button>
+                </DropdownTrigger>
+
+                <DropdownMenu
+                  onAction={(key) => {
+                    if (key === "sign-out") {
+                      signOut({
+                        callbackUrl: "/",
+                      });
+                    }
+                  }}
+                >
+                  <DropdownItem key="sign-out">Sign out</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
             </NavbarItem>
           )}
-          <NavbarItem>
-            <Button
-              color="primary"
-              variant="flat"
-              onClick={() =>
-                signOut({
-                  callbackUrl: "/",
-                })
-              }
-            >
-              Sign out
-            </Button>
-          </NavbarItem>
+          <NavbarItem></NavbarItem>
         </NavbarContent>
       </Navbar>
 
-      <main className="flex items-center">
-        <div className="flex max-w-5xl flex-col">{children}</div>
+      <main className="flex flex-col items-center">
+        <div className="flex w-full max-w-5xl flex-col bg-primary-500">
+          {children}
+        </div>
       </main>
     </>
   );
