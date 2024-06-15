@@ -63,6 +63,10 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
                         }).catch(console.error);
                       }
 
+                      if (key === "adocao") {
+                        push("/pets/adocao").catch(console.error);
+                      }
+
                       if (key === "meus-pets") {
                         push("/meus-pets").catch(console.error);
                       }
@@ -72,6 +76,7 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
                       }
                     }}
                   >
+                    <DropdownItem key="adocao">Adoção</DropdownItem>
                     <DropdownItem key="meus-pets">Meus pets</DropdownItem>
                     <DropdownItem key="cadastro-pet">
                       Cadastrar pet
@@ -84,7 +89,7 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
             <NavbarItem></NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="flex w-full max-w-5xl flex-col">
+        <div className="flex w-full max-w-5xl flex-col items-center">
           <Progress
             size="sm"
             isIndeterminate={isLoading}

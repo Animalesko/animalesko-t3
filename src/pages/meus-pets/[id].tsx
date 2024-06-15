@@ -81,7 +81,7 @@ export default function Cadastro() {
 
   return (
     <PrivateLayout
-      isLoading={fingByIdQuery.isLoading || listBreedsQuery.isLoading}
+      isLoading={fingByIdQuery.isFetching || listBreedsQuery.isFetching}
     >
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <Title title="Editar Pet" />

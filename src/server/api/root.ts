@@ -1,5 +1,6 @@
 import { petsRouter } from "~/server/api/routers/pets";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
+import { petviewsRouter } from "./routers/pet-views";
 
 /**
  * This is the primary router for your server.
@@ -8,6 +9,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
   pets: petsRouter,
+  petviews: petviewsRouter,
 });
 
 // export type definition of API

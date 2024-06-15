@@ -2,11 +2,7 @@ import { z } from "zod";
 import { createPetSchema } from "~/schemas/router/pets/create-pet-schema";
 import { paginateSchema } from "~/schemas/router/shared/paginate-schema";
 
-import {
-  createTRPCRouter,
-  protectedProcedure,
-  publicProcedure,
-} from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
 export const petsRouter = createTRPCRouter({
   create: protectedProcedure

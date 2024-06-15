@@ -51,7 +51,8 @@ model User {
     accounts      Account[]
     sessions      Session[]
 
-    Pet Pet[]
+    Pet     Pet[]
+    PetView PetView[]
 }
 
 model VerificationToken {
@@ -76,8 +77,9 @@ model Pet {
     description String @db.Text
     petBreedId  String
 
-    owner   User   @relation(fields: [ownerId], references: [id])
+    owner   User      @relation(fields: [ownerId], references: [id])
     ownerId String
+    PetView PetView[]
 }
 
 model PetBreed {
@@ -85,4 +87,20 @@ model PetBreed {
 
     name String
     Pet  Pet[]
+}
+
+model PetView {
+    id String @id @default(cuid())
+
+    user     User @relation(fields: [userId], references: [id])
+    pet      Pet  @relation(fields: [petId], references: [id])
+    quantity Int @default(0)
+
+    like     Boolean @default(false)
+    lastSeen DateTime @updatedAt
+
+    petId  String
+    userId String
+
+    @@unique([petId, userId])
 }
