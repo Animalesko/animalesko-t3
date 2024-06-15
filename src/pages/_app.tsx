@@ -4,6 +4,7 @@ import { SessionProvider } from "next-auth/react";
 import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import { NextUIProvider } from "@nextui-org/react";
+import { Toaster } from "react-hot-toast";
 
 import "~/styles/globals.css";
 
@@ -17,6 +18,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <main className={GeistSans.className}>
           <Component {...pageProps} />
         </main>
+        <Toaster />
       </SessionProvider>
     </NextUIProvider>
   );

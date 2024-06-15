@@ -3,7 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 
 import AnimaleskoLogo from "~/assets/images/logo.png";
-import { GoogleLoginButton } from "~/components/google-login-button/GoogleLoginButton";
+import { GoogleLoginButton } from "~/components/atomic/google-login-button/GoogleLoginButton";
 
 export default function Home() {
   return (
@@ -30,7 +30,7 @@ export default function Home() {
             <GoogleLoginButton
               onClick={async () => {
                 await signIn("google", {
-                  callbackUrl: "/adocao",
+                  callbackUrl: "/pets/adocao",
                 });
               }}
             />
