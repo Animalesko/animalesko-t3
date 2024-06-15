@@ -2,7 +2,7 @@ import {
   Input as NextInput,
   InputProps as NextInputProps,
 } from "@nextui-org/react";
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
 type InputProps = NextInputProps;
 

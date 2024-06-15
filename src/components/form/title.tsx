@@ -5,5 +5,5 @@ interface TitleProps {
 }
 
 export const Title: React.FC<TitleProps> = ({ title }) => {
-  return <h1 className="col-span-12 my-4 text-xl font-semibold">{title}</h1>;
+  return <h1 className="col-span-12 my-4 text-2xl font-semibold">{title}</h1>;
 };

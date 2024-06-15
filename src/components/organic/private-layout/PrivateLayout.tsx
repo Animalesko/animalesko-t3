@@ -57,11 +57,18 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
                         }).catch(console.error);
                       }
 
+                      if (key === "meus-pets") {
+                        push("/meus-pets").catch(console.error);
+                      }
+
                       if (key === "cadastro-pet") {
                         push("/pets/cadastro").catch(console.error);
                       }
                     }}
                   >
+                    <DropdownItem key="meus-pets">
+                      Meus pets
+                    </DropdownItem>
                     <DropdownItem key="cadastro-pet">
                       Cadastrar pet
                     </DropdownItem>
