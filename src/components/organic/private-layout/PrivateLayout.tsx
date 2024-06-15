@@ -89,7 +89,7 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
             <NavbarItem></NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="flex w-full max-w-5xl flex-col items-center">
+        <div className="flex w-full max-w-5xl flex-col">
           <Progress
             size="sm"
             isIndeterminate={isLoading}
