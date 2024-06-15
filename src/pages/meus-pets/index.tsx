@@ -21,7 +21,7 @@ export default function MeusPets() {
     : 0;
 
   return (
-    <PrivateLayout>
+    <PrivateLayout isLoading={paginateOwnedQuery.isLoading}>
       <Title title="Meus pets" />
 
       <div className="flex flex-col gap-4 p-3">

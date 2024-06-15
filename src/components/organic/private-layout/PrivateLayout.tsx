@@ -9,6 +9,7 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  Progress,
 } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -19,9 +20,14 @@ import { useRouter } from "next/router";
 
 interface PrivateLayoutProps {
   children: React.ReactNode;
+
+  isLoading?: boolean;
 }
 
-export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
+export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
+  children,
+  isLoading,
+}) => {
   const { data } = useSession();
 
   const { push } = useRouter();
@@ -66,9 +72,7 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
                       }
                     }}
                   >
-                    <DropdownItem key="meus-pets">
-                      Meus pets
-                    </DropdownItem>
+                    <DropdownItem key="meus-pets">Meus pets</DropdownItem>
                     <DropdownItem key="cadastro-pet">
                       Cadastrar pet
                     </DropdownItem>
@@ -80,7 +84,15 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({ children }) => {
             <NavbarItem></NavbarItem>
           </NavbarContent>
         </Navbar>
-        <div className="flex w-full max-w-5xl flex-col">{children}</div>
+        <div className="flex w-full max-w-5xl flex-col">
+          <Progress
+            size="sm"
+            isIndeterminate={isLoading}
+            aria-label="Loading..."
+            color="warning"
+          />
+          {children}
+        </div>
       </main>
     </>
   );

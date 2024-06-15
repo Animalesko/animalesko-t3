@@ -80,7 +80,9 @@ export default function Cadastro() {
   }, [fingByIdQuery.data]);
 
   return (
-    <PrivateLayout>
+    <PrivateLayout
+      isLoading={fingByIdQuery.isLoading || listBreedsQuery.isLoading}
+    >
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <Title title="Editar Pet" />
 
