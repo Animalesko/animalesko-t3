@@ -13,7 +13,7 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import React from "react";
-import AnimaleskoLogo from "~/assets/images/logo-extended.png";
+import AnimaleskoLogo from "~/assets/images/logo-extended-bg-red.png";
 import { UserBadgeCard } from "../../molecular/user-badge-card/UserBadgeCard";
 import { useRouter } from "next/router";
 

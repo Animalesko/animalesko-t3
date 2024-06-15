@@ -83,6 +83,6 @@ model Pet {
 model PetBreed {
     id String @id @default(cuid())
 
-    name String @unique
+    name String
     Pet  Pet[]
 }
