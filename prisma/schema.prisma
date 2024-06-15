@@ -93,7 +93,7 @@ model PetView {
     id String @id @default(cuid())
 
     user     User @relation(fields: [userId], references: [id])
-    pet      Pet  @relation(fields: [petId], references: [id])
+    pet      Pet  @relation(fields: [petId], references: [id], onDelete: Cascade)
     quantity Int @default(0)
 
     like     Boolean @default(false)
