@@ -129,7 +129,7 @@ export default function Cadastro() {
           errorMessage={form.formState.errors.description?.message}
         />
 
-        <Button type="submit" className="col-span-12 mx-auto w-[360px]">
+        <Button type="submit" className="col-span-12 mx-auto w-full sm:w-[360px]">
           Enviar
         </Button>
       </Form>

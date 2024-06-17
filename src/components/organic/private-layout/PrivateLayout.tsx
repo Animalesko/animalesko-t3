@@ -5,15 +5,19 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Link,
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
+  NavbarMenu,
+  NavbarMenuItem,
+  NavbarMenuToggle,
   Progress,
 } from "@nextui-org/react";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import AnimaleskoLogo from "~/assets/images/logo-extended-bg-red.png";
 import { UserBadgeCard } from "../../molecular/user-badge-card/UserBadgeCard";
 import { useRouter } from "next/router";
@@ -32,18 +36,29 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
 
   const { push } = useRouter();
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <>
       <main className="flex min-h-screen flex-col items-center bg-orange-100">
-        <Navbar className="flex flex-row items-center bg-primary-900 p-2">
-          <NavbarBrand>
-            <Image
-              src={AnimaleskoLogo}
-              width={300}
-              height={24}
-              alt="animalesko-logo"
-            />
-          </NavbarBrand>
+        <Navbar
+          className="flex flex-row items-center bg-primary-900 p-2"
+          isMenuOpen={isMenuOpen}
+          onMenuOpenChange={setIsMenuOpen}
+        >
+          <NavbarContent>
+            {/* <NavbarMenuToggle
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            /> */}
+            <NavbarBrand>
+              <Image
+                src={AnimaleskoLogo}
+                width={300}
+                height={24}
+                alt="animalesko-logo"
+              />
+            </NavbarBrand>
+          </NavbarContent>
 
           <NavbarContent justify="end">
             {!!data?.user && (
@@ -86,10 +101,17 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
                 </Dropdown>
               </NavbarItem>
             )}
-            <NavbarItem></NavbarItem>
           </NavbarContent>
+
+          {/* TODO: CREATE LEFT SIDE MENU */}
+          {/* <NavbarMenu>
+            <NavbarMenuItem>
+              <Link href="/pets/adocao">Adoção</Link>
+            </NavbarMenuItem>
+          </NavbarMenu> */}
         </Navbar>
-        <div className="flex w-full max-w-5xl flex-col">
+
+        <div className="flex w-full max-w-5xl flex-col p-2">
           <Progress
             size="sm"
             isIndeterminate={isLoading}

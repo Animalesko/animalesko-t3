@@ -26,7 +26,7 @@ export default function Adocao() {
   return (
     <PrivateLayout isLoading={nextQuery.isFetching}>
       {nextQuery.data && (
-        <div className="mx-auto flex w-[600px] flex-col gap-4">
+        <div className="mx-auto flex lg:w-[600px] flex-col gap-4">
           <PetTinderCard
             petview={nextQuery.data}
             onLike={() => {

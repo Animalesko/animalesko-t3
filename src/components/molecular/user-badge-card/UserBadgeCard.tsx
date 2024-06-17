@@ -18,7 +18,7 @@ export const UserBadgeCard: React.FC<UserBadgeCardProps> = ({ user }) => {
             <Avatar radius="md" size="md" src={user.image ?? undefined} />
           </Badge>
 
-          <p className="text-lg font-semibold">{user.name}</p>
+          <p className="hidden text-lg font-semibold sm:block">{user.name}</p>
         </div>
       </CardBody>
     </Card>
