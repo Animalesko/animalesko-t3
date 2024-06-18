@@ -70,9 +70,9 @@ export default function Cadastro() {
       form.reset({
         name: fingByIdQuery.data.name,
         petBreedId: fingByIdQuery.data.petBreedId,
-        birthdate: DateTime.fromJSDate(fingByIdQuery.data.birthdate).toFormat(
-          "yyyy-MM-dd",
-        ) as unknown as Date,
+        birthdate: DateTime.fromJSDate(fingByIdQuery.data.birthdate, {
+          zone: "utc",
+        }).toFormat("yyyy-MM-dd") as unknown as Date,
         vaccinationCard: fingByIdQuery.data.vaccinationCard,
         description: fingByIdQuery.data.description,
       });
@@ -129,7 +129,10 @@ export default function Cadastro() {
           errorMessage={form.formState.errors.description?.message}
         />
 
-        <Button type="submit" className="col-span-12 mx-auto w-full sm:w-[360px]">
+        <Button
+          type="submit"
+          className="col-span-12 mx-auto w-full sm:w-[360px]"
+        >
           Enviar
         </Button>
       </Form>
