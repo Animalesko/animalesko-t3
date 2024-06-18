@@ -44,7 +44,7 @@ export default function MeuPerfil() {
       .catch(console.error);
   };
 
-  const handleChangeCep: ChangeEventHandler<HTMLInputElement> = async (e) => {
+  const handleChangeCep: ChangeEventHandler<HTMLInputElement> = (e) => {
     const cep = e.target.value.replaceAll(/[^\d]+/g, "");
 
     if (cep.length === 8) {
