@@ -7,14 +7,18 @@ interface UserBadgeCardProps {
     email?: string | null | undefined;
     image?: string | null | undefined;
   };
+  leskoins: number;
 }
 
-export const UserBadgeCard: React.FC<UserBadgeCardProps> = ({ user }) => {
+export const UserBadgeCard: React.FC<UserBadgeCardProps> = ({
+  user,
+  leskoins,
+}) => {
   return (
     <Card>
       <CardBody>
         <div className="flex flex-row items-center gap-4">
-          <Badge>
+          <Badge content={leskoins}>
             <Avatar radius="md" size="md" src={user.image ?? undefined} />
           </Badge>
 

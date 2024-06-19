@@ -21,6 +21,7 @@ import React, { useState } from "react";
 import AnimaleskoLogo from "~/assets/images/logo-extended-bg-red.png";
 import { UserBadgeCard } from "../../molecular/user-badge-card/UserBadgeCard";
 import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
 interface PrivateLayoutProps {
   children: React.ReactNode;
@@ -37,6 +38,8 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
   const { push } = useRouter();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const walletQuery = api.wallet.get.useQuery();
 
   return (
     <>
@@ -66,7 +69,10 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
                 <Dropdown>
                   <DropdownTrigger>
                     <Button className="h-auto bg-transparent p-0">
-                      <UserBadgeCard user={data.user} />
+                      <UserBadgeCard
+                        user={data.user}
+                        leskoins={walletQuery.data?.leskoins ?? 0}
+                      />
                     </Button>
                   </DropdownTrigger>
 

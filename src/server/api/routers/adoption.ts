@@ -15,7 +15,7 @@ export const adoptionRouter = createTRPCRouter({
       await updateCoins({
         prisma: ctx.db,
         data: {
-          quantity: env.ANNOUNCE_LESKOINS_PRICE,
+          quantity: -env.ANNOUNCE_LESKOINS_PRICE,
           userId: ctx.session.user.id,
         },
       });
@@ -63,7 +63,7 @@ export const adoptionRouter = createTRPCRouter({
       await updateCoins({
         prisma: ctx.db,
         data: {
-          quantity: env.ANNOUNCE_LESKOINS_PRICE,
+          quantity: -env.ANNOUNCE_LESKOINS_PRICE,
           userId: ctx.session.user.id,
         },
       });
