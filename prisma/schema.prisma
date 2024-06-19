@@ -54,6 +54,8 @@ model User {
     Pet         Pet[]
     PetView     PetView[]
     UserProfile UserProfile[]
+
+    Wallet Wallet[]
 }
 
 model VerificationToken {
@@ -70,13 +72,13 @@ model UserProfile {
 
     birthdate DateTime
     phone     String
- 
+
     address   Address @relation(fields: [addressId], references: [id])
     addressId String
 
     user   User   @relation(fields: [userId], references: [id])
     userId String
-} 
+}
 
 model Address {
     id String @id @default(cuid())
@@ -127,4 +129,13 @@ model PetView {
     userId String
 
     @@unique([petId, userId])
+}
+
+model Wallet {
+    id String @id @default(cuid())
+
+    leskoins Int @default(0)
+
+    user   User   @relation(fields: [userId], references: [id])
+    userId String
 }
