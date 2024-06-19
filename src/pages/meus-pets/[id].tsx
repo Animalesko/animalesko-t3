@@ -19,6 +19,8 @@ import { SelectItem } from "@nextui-org/react";
 import { Select } from "~/components/form/select";
 import { useRouter } from "next/router";
 import { DateTime } from "luxon";
+import { env } from "~/env";
+import { SingleActionCustomToast } from "~/components/molecular/toast-custom-action/SingleActionCustomToast";
 
 export default function Cadastro() {
   const { query } = useRouter();
@@ -38,6 +40,7 @@ export default function Cadastro() {
   );
   const listBreedsQuery = api.pets.listBreeds.useQuery();
   const createPetMutation = api.pets.update.useMutation();
+  const displayAdoptionMutation = api.adoption.displayAdoption.useMutation();
 
   const onSubmit = (data: CreatePetData) => {
     toast
@@ -55,6 +58,24 @@ export default function Cadastro() {
         form.reset();
       })
       .catch(console.error);
+  };
+
+  const onClickAdoption = async () => {
+    toast.custom((t) => (
+      <SingleActionCustomToast
+        title="Quer enviar para adoção?"
+        message={`Essa ação custa ${env.NEXT_PUBLIC_ANNOUNCE_LESKOINS_PRICE} leskoins`}
+        onClick={() => {
+          toast
+            .promise(displayAdoptionMutation.mutateAsync({ petId }), {
+              loading: "Enviando para adoção...",
+              success: "Enviado para adoção.",
+              error: "Não foi possível enviar para adoção",
+            })
+            .catch(console.error);
+        }}
+      />
+    ));
   };
 
   const [breedList, setBreedList] = useState<PetBreed[]>([]);
@@ -135,6 +156,17 @@ export default function Cadastro() {
         >
           Enviar
         </Button>
+
+        {fingByIdQuery.data?.announce === false && (
+          <Button
+            type="button"
+            color="neutral"
+            onClick={onClickAdoption}
+            className="col-span-12 mx-auto w-full sm:w-[360px]"
+          >
+            Colocar para adoção
+          </Button>
+        )}
       </Form>
     </PrivateLayout>
   );

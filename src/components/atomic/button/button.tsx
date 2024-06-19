@@ -11,6 +11,7 @@ const buttonTV = tv({
   variants: {
     color: {
       primary: "bg-secondary-200 text-black",
+      neutral: "bg-primary-900 text-white",
     },
   },
   defaultVariants: {
@@ -18,8 +19,8 @@ const buttonTV = tv({
   },
 });
 
-interface ButtonProps extends NextButtonProps {
-  color?: "primary";
+interface ButtonProps extends Omit<NextButtonProps, "color"> {
+  color?: "primary" | "neutral";
 }
 
 export const Button: React.FC<ButtonProps> = ({

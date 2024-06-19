@@ -103,6 +103,8 @@ model Pet {
     description String @db.Text
     petBreedId  String
 
+    announce Boolean @default(false)
+
     owner   User      @relation(fields: [ownerId], references: [id])
     ownerId String
     PetView PetView[]

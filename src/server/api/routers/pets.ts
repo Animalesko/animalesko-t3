@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { env } from "~/env";
 import { createPetSchema } from "~/schemas/router/pets/create-pet-schema";
 import { paginateSchema } from "~/schemas/router/shared/paginate-schema";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { updateCoins } from "~/use-cases/wallet/update-coins";
 
 export const petsRouter = createTRPCRouter({
   create: protectedProcedure

@@ -11,6 +11,7 @@ export const petviewsRouter = createTRPCRouter({
             userId: ctx.session.user.id,
           },
         },
+        announce: true,
       },
     });
 
@@ -30,6 +31,9 @@ export const petviewsRouter = createTRPCRouter({
     const lastSeenPetView = await ctx.db.petView.findFirstOrThrow({
       where: {
         userId: ctx.session.user.id,
+        pet: {
+          announce: true,
+        },
       },
       orderBy: {
         lastSeen: "asc",

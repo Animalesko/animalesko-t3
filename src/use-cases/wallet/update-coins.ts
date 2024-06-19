@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
 interface addCoinsProps {
   prisma: PrismaClient;
@@ -21,11 +22,25 @@ export const updateCoins = async ({ prisma, data }: addCoinsProps) => {
   });
 
   if (!existingWallet) {
+    if (data.quantity < 0) {
+      throw new TRPCError({
+        code: "UNPROCESSABLE_CONTENT",
+        message: "User has no coins available",
+      });
+    }
+
     return await prisma.wallet.create({
       data: {
         userId: data.userId,
         leskoins: data.quantity,
       },
+    });
+  }
+
+  if (existingWallet.leskoins < data.quantity) {
+    throw new TRPCError({
+      code: "UNPROCESSABLE_CONTENT",
+      message: "User has no coins available",
     });
   }
 

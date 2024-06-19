@@ -24,6 +24,9 @@ export const env = createEnv({
     ),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
+
+    ANNOUNCE_LESKOINS_PRICE: z.coerce.number(),
+    ANNOUNCEMENT_LESKOINS_PRICE: z.coerce.number(),
   },
 
   /**
@@ -33,6 +36,9 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
+
+    NEXT_PUBLIC_ANNOUNCE_LESKOINS_PRICE: z.coerce.number(),
+    NEXT_PUBLIC_ANNOUNCEMENT_LESKOINS_PRICE: z.coerce.number(),
   },
 
   /**
@@ -46,6 +52,18 @@ export const env = createEnv({
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+
+    ANNOUNCE_LESKOINS_PRICE: Number(process.env.ANNOUNCE_LESKOINS_PRICE),
+    ANNOUNCEMENT_LESKOINS_PRICE: Number(
+      process.env.ANNOUNCEMENT_LESKOINS_PRICE,
+    ),
+
+    NEXT_PUBLIC_ANNOUNCE_LESKOINS_PRICE: Number(
+      process.env.NEXT_PUBLIC_ANNOUNCE_LESKOINS_PRICE,
+    ),
+    NEXT_PUBLIC_ANNOUNCEMENT_LESKOINS_PRICE: Number(
+      process.env.NEXT_PUBLIC_ANNOUNCEMENT_LESKOINS_PRICE,
+    ),
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
