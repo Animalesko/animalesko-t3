@@ -51,11 +51,11 @@ model User {
     accounts      Account[]
     sessions      Session[]
 
-    Pet         Pet[]
-    PetView     PetView[]
-    UserProfile UserProfile[]
-
-    Wallet Wallet[]
+    Pet              Pet[]
+    PetView          PetView[]
+    UserProfile      UserProfile[]
+    Wallet           Wallet[]
+    PetContactBought PetContactBought[]
 }
 
 model VerificationToken {
@@ -105,9 +105,11 @@ model Pet {
 
     announce Boolean @default(false)
 
-    owner   User      @relation(fields: [ownerId], references: [id])
+    owner   User   @relation(fields: [ownerId], references: [id])
     ownerId String
-    PetView PetView[]
+
+    PetView          PetView[]
+    PetContactBought PetContactBought[]
 }
 
 model PetBreed {
@@ -139,5 +141,19 @@ model Wallet {
     leskoins Int @default(0)
 
     user   User   @relation(fields: [userId], references: [id])
+    userId String
+}
+
+model PetContactBought {
+    id String @id @default(cuid())
+
+    phone String
+    email String
+
+    pet Pet @relation(fields: [petId], references: [id])
+
+    user User @relation(fields: [userId], references: [id])
+
+    petId  String
     userId String
 }

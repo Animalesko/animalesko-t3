@@ -65,7 +65,7 @@ export const petsRouter = createTRPCRouter({
   findById: protectedProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ ctx, input }) => {
-      return await ctx.db.pet.findFirst({
+      return await ctx.db.pet.findFirstOrThrow({
         where: { id: input.id },
       });
     }),

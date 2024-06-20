@@ -5,6 +5,27 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 
 export const adoptionRouter = createTRPCRouter({
+  findByPetId: protectedProcedure
+    .input(
+      z.object({
+        petId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const petContact = await ctx.db.petContactBought.findFirst({
+        where: {
+          petId: input.petId,
+          userId: ctx.session.user.id,
+        },
+
+        include: {
+          pet: true,
+        },
+      });
+
+      return petContact;
+    }),
+
   displayAdoption: protectedProcedure
     .input(
       z.object({
@@ -20,7 +41,7 @@ export const adoptionRouter = createTRPCRouter({
         },
       });
 
-      await ctx.db.pet.update({
+      return await ctx.db.pet.update({
         where: { id: input.petId },
         data: {
           announce: true,
@@ -65,6 +86,16 @@ export const adoptionRouter = createTRPCRouter({
         data: {
           quantity: -env.ANNOUNCE_LESKOINS_PRICE,
           userId: ctx.session.user.id,
+        },
+      });
+
+      await ctx.db.petContactBought.create({
+        data: {
+          petId: pet.id,
+          userId: ctx.session.user.id,
+
+          phone,
+          email,
         },
       });
 
