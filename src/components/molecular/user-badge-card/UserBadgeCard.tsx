@@ -18,7 +18,7 @@ export const UserBadgeCard: React.FC<UserBadgeCardProps> = ({
     <Card>
       <CardBody>
         <div className="flex flex-row items-center gap-4">
-          <Badge content={leskoins}>
+          <Badge content={`$${leskoins}`}>
             <Avatar radius="md" size="md" src={user.image ?? undefined} />
           </Badge>
 
