@@ -4,6 +4,7 @@ import { env } from "~/env";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { PrismaClient } from "@prisma/client";
+import { paginateSchema } from "~/schemas/router/shared/paginate-schema";
 
 export const adoptionRouter = createTRPCRouter({
   findByPetId: protectedProcedure
@@ -25,6 +26,35 @@ export const adoptionRouter = createTRPCRouter({
       });
 
       return petContact;
+    }),
+
+  paginatePetContact: protectedProcedure
+    .input(paginateSchema)
+    .query(async ({ ctx, input }) => {
+      const [data, total] = await Promise.all([
+        ctx.db.petContactBought.findMany({
+          where: {
+            userId: ctx.session.user.id,
+          },
+          include: {
+            pet: true,
+          },
+
+          take: input.limit,
+          skip: input.limit * (input.page - 1),
+        }),
+
+        ctx.db.pet.count({
+          where: {
+            ownerId: ctx.session.user.id,
+          },
+        }),
+      ]);
+
+      return {
+        data,
+        total,
+      };
     }),
 
   checkAvailableContact: protectedProcedure

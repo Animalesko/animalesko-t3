@@ -6,12 +6,12 @@ import { PetCardVAccinationCard } from "~/components/molecular/pet-card/PetCardV
 import { PrivateLayout } from "~/components/organic/private-layout/PrivateLayout";
 import { api } from "~/utils/api";
 
-export default function MeusPets() {
+export default function ContatosAdquiridos() {
   const { push } = useRouter();
 
   const [page, setPage] = useState(1);
 
-  const paginateOwnedQuery = api.pets.paginateOwned.useQuery({
+  const paginateOwnedQuery = api.adoption.paginatePetContact.useQuery({
     limit: 10,
     page,
   });
@@ -21,16 +21,16 @@ export default function MeusPets() {
     : 0;
 
   return (
-    <PrivateLayout isLoading={paginateOwnedQuery.isFetching}>
-      <Title title="Meus pets" />
+    <PrivateLayout>
+      <Title title="Meus contatos adquiridos" />
 
       <div className="flex flex-col gap-4 p-3">
-        {paginateOwnedQuery.data?.data.map((pet) => (
+        {paginateOwnedQuery.data?.data.map((petContact) => (
           <PetCardVAccinationCard
-            key={pet.id}
-            pet={pet}
+            key={petContact.id}
+            pet={petContact.pet}
             onClick={() => {
-              push(`/meus-pets/${pet.id}`).catch(console.error);
+              push(`/pets/${petContact.petId}`).catch(console.error);
             }}
           />
         ))}
