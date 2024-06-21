@@ -21,7 +21,7 @@ export default function ContatosAdquiridos() {
     : 0;
 
   return (
-    <PrivateLayout>
+    <PrivateLayout isLoading={paginateOwnedQuery.isFetching}>
       <Title title="Meus contatos adquiridos" />
 
       <div className="flex flex-col gap-4 p-3">
