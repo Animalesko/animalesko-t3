@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/react";
 import { ChevronRightIcon, ContactRoundIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { PetTinderCard } from "~/components/molecular/pet-tinder-card/PetTinderCard";
 import { PrivateLayout } from "~/components/organic/private-layout/PrivateLayout";
@@ -14,6 +14,15 @@ export default function Adocao() {
 
   const nextQuery = api.petviews.next.useQuery();
   const viewMutation = api.petviews.view.useMutation();
+
+  const petId = nextQuery.data?.petId;
+  const checkAvailableContactQuery =
+    api.adoption.checkAvailableContact.useQuery(
+      {
+        petId: petId!,
+      },
+      { enabled: !!petId },
+    );
   const getContactMutation = api.adoption.requestContact.useMutation();
 
   const onClickGetContact = async () => {
@@ -46,13 +55,15 @@ export default function Adocao() {
         <div className="mx-auto flex flex-col gap-4 lg:w-[600px]">
           <PetTinderCard pet={nextQuery.data.pet} />
           <div className="flex flex-row justify-center gap-6">
-            <Button
-              isIconOnly
-              className="h-fit w-fit rounded-full border-5  border-primary-900 bg-transparent p-2"
-              onClick={onClickGetContact}
-            >
-              <ContactRoundIcon className="h-16 w-16 text-primary-900" />
-            </Button>
+            {checkAvailableContactQuery.data === true && (
+              <Button
+                isIconOnly
+                className="h-fit w-fit rounded-full border-5  border-primary-900 bg-transparent p-2"
+                onClick={onClickGetContact}
+              >
+                <ContactRoundIcon className="h-16 w-16 text-primary-900" />
+              </Button>
+            )}
 
             <Button
               isIconOnly
