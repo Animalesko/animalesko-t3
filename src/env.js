@@ -27,6 +27,11 @@ export const env = createEnv({
 
     ANNOUNCE_LESKOINS_PRICE: z.coerce.number(),
     ANNOUNCEMENT_LESKOINS_PRICE: z.coerce.number(),
+
+    OPEN_PIX_TOKEN: z.string(),
+    OPEN_PIX_WEBHOOK_AUTHORIZATION_TOKEN: z.string(),
+
+    LESKOIN_VALUE_CENTS: z.number(),
   },
 
   /**
@@ -64,6 +69,12 @@ export const env = createEnv({
     NEXT_PUBLIC_ANNOUNCEMENT_LESKOINS_PRICE: Number(
       process.env.NEXT_PUBLIC_ANNOUNCEMENT_LESKOINS_PRICE,
     ),
+
+    OPEN_PIX_TOKEN: process.env.OPEN_PIX_TOKEN,
+    OPEN_PIX_WEBHOOK_AUTHORIZATION_TOKEN:
+      process.env.OPEN_PIX_WEBHOOK_AUTHORIZATION_TOKEN,
+
+    LESKOIN_VALUE_CENTS: Number(process.env.LESKOIN_VALUE_CENTS),
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
