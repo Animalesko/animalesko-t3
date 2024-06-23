@@ -71,7 +71,7 @@ export default function MeuPerfil() {
   }, [userProfileQuery.data]);
 
   return (
-    <PrivateLayout>
+    <PrivateLayout isLoading={userProfileQuery.isFetching}>
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <Title title="Meu perfil" />
 
