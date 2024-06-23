@@ -167,23 +167,23 @@ enum OpenPixChargesStatus {
 model OpenPixCharges {
     id String @id @default(cuid())
 
-    value                 Int
-    chargeCorrelationID   String
-    customerCorrelationID String
+    value               Int
+    leskoins            Int
+    chargeCorrelationID String
 
     status OpenPixChargesStatus
 
     user   User   @relation(fields: [userId], references: [id])
     userId String
+
+    updatedAt DateTime @updatedAt
 }
 
 model OpenPixFailedChargeCompleted {
-    id    String @id @default(cuid())
+    id String @id @default(cuid())
 
-    value Int
-    name  String
-    email String
-
-    chargeCorrelationID   String
-    customerCorrelationID String
+    value               Int
+    name                String
+    email               String
+    chargeCorrelationID String
 }

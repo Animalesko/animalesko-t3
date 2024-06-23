@@ -152,6 +152,7 @@ export default function Cadastro() {
 
         <Button
           type="submit"
+          color="neutral"
           className="col-span-12 mx-auto w-full sm:w-[360px]"
         >
           Enviar
@@ -160,7 +161,7 @@ export default function Cadastro() {
         {fingByIdQuery.data?.announce === false && (
           <Button
             type="button"
-            color="neutral"
+            color="primary"
             onClick={onClickAdoption}
             className="col-span-12 mx-auto w-full sm:w-[360px]"
           >

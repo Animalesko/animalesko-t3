@@ -11,16 +11,34 @@ export const walletRouter = createTRPCRouter({
     return wallet;
   }),
 
+  getLastCharges: protectedProcedure.query(async ({ ctx }) => {
+    const charges = ctx.db.openPixCharges.findMany({
+      where: { userId: ctx.session.user.id },
+
+      take: 10,
+      orderBy: {
+        updatedAt: "desc",
+      },
+    });
+
+    return charges;
+  }),
+
   createCharge: protectedProcedure
     .input(
       z.object({
-        valueCents: z.number(),
+        priceCents: z.number(),
+        leskoins: z.number(),
       }),
     )
     .mutation(async ({ ctx, input }) => {
       const { brCode } = await createCharge({
         prisma: ctx.db,
-        data: { userId: ctx.session.user.id, valueCents: input.valueCents },
+        data: {
+          userId: ctx.session.user.id,
+          priceCents: input.priceCents,
+          leskoins: input.leskoins,
+        },
       });
 
       return {

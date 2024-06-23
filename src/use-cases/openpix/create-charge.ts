@@ -5,7 +5,8 @@ import { v4 } from "uuid";
 interface createChargeProps {
   data: {
     userId: string;
-    valueCents: number;
+    priceCents: number;
+    leskoins: number;
   };
 
   prisma: PrismaClient;
@@ -23,7 +24,7 @@ export const createCharge = async ({ prisma, data }: createChargeProps) => {
       name: user.name ?? "Sem nome",
       email: user.email ?? "leskoanima@gmail.com",
     },
-    value: data.valueCents,
+    value: data.priceCents,
     comment: `Obrigado por comprar leskoins.`,
   });
 
@@ -31,11 +32,10 @@ export const createCharge = async ({ prisma, data }: createChargeProps) => {
     data: {
       userId: data.userId,
 
-      value: data.valueCents,
+      value: data.priceCents,
+      leskoins: data.leskoins,
       status: "PENDING",
-
       chargeCorrelationID: charge.correlationID,
-      customerCorrelationID: charge.customer.correlationId,
     },
   });
 

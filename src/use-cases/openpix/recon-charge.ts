@@ -12,7 +12,6 @@ export const reconCharge = async ({ data, prisma }: reconChargeProps) => {
   const existingCharge = await prisma.openPixCharges.findFirst({
     where: {
       chargeCorrelationID: data.charge.correlationID,
-      customerCorrelationID: data.charge.customer.correlationID,
       value: data.charge.value,
     },
 
@@ -29,23 +28,19 @@ export const reconCharge = async ({ data, prisma }: reconChargeProps) => {
         value: data.charge.value,
         name: data.charge.customer.name,
         email: data.charge.customer.email,
-
         chargeCorrelationID: data.charge.correlationID,
-        customerCorrelationID: data.charge.customer.correlationID,
       },
     });
 
     return undefined;
   }
 
-  const quantity = calcLeskoinValue(data.charge.value);
-
   return await prisma.$transaction(async (tx) => {
     await updateCoins({
       prisma: tx as PrismaClient,
       data: {
         userId: existingCharge.userId,
-        quantity,
+        quantity: existingCharge.leskoins,
       },
     });
 

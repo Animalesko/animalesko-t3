@@ -18,7 +18,6 @@ export const chargeCompletedSchema = z.object({
     customer: z.object({
       name: z.string(),
       email: z.string(),
-      correlationID: z.string(),
     }),
   }),
 });

@@ -10,8 +10,8 @@ const buttonTV = tv({
   base: "border border-black rounded-md",
   variants: {
     color: {
-      primary: "bg-secondary-200 text-black",
-      neutral: "bg-primary-900 text-white",
+      primary: "bg-primary-900 text-white",
+      neutral: "bg-secondary-200 text-black",
     },
   },
   defaultVariants: {
