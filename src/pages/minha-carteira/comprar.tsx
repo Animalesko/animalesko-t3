@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import QRCode from "react-qr-code";
 import { Title } from "~/components/form/title";
 import { formatCurrency } from "~/utils/formatter/formatCurrency";
+import { CopiableCode } from "~/components/molecular/copiable-code/CopiableCode";
 export default function Comprar() {
   const createChargeMutation = api.wallet.createCharge.useMutation();
 
@@ -79,8 +80,10 @@ export default function Comprar() {
           <p className="text-xl">Aponte a camera do celular e page com pix.</p>
 
           <div className="mx-auto w-fit bg-white p-4">
-            <QRCode size={300} value={state.brCode} />
+            <QRCode size={250} value={state.brCode} />
           </div>
+
+          <CopiableCode code={state.brCode} />
 
           <p className="text-xl">
             {formatCurrency({ valueCents: state.priceCents })}
