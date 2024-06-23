@@ -12,7 +12,9 @@ import { useRouter } from "next/router";
 export default function Adocao() {
   const router = useRouter();
 
-  const nextQuery = api.petviews.next.useQuery();
+  const nextQuery = api.petviews.next.useQuery(undefined, {
+    refetchOnWindowFocus: false,
+  });
   const viewMutation = api.petviews.view.useMutation();
 
   const petId = nextQuery.data?.petId;
