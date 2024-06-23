@@ -100,6 +100,10 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
                         push("/pets/cadastro").catch(console.error);
                       }
 
+                      if (key === "minha-carteira") {
+                        push("/minha-carteira").catch(console.error);
+                      }
+
                       if (key === "meu-perfil") {
                         push("/meu-perfil").catch(console.error);
                       }
@@ -114,6 +118,9 @@ export const PrivateLayout: React.FC<PrivateLayoutProps> = ({
                       Cadastrar pet
                     </DropdownItem>
                     <DropdownItem key="meu-perfil">Meu perfil</DropdownItem>
+                    <DropdownItem key="minha-carteira">
+                      Minha carteira
+                    </DropdownItem>
                     <DropdownItem key="sign-out">Sign out</DropdownItem>
                   </DropdownMenu>
                 </Dropdown>

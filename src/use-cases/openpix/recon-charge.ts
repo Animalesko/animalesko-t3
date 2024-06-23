@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { ChargeCompletedData } from "~/schemas/webhook/open-pix/charge-completed";
 import { updateCoins } from "../wallet/update-coins";
-import { calcLeskoinValue } from "../wallet/calc-leskoin-value";
 
 interface reconChargeProps {
   data: ChargeCompletedData;
