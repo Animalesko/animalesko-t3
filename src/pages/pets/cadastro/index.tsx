@@ -48,6 +48,7 @@ export default function Cadastro() {
                   body: file,
                   headers: {
                     "Content-Type": file.type,
+                    "Access-Control-Allow-Origin": "*",
                   },
                 });
 
@@ -92,13 +93,13 @@ export default function Cadastro() {
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <Title title="Adicionar Pet" />
 
-        <InputFile
+        {/* <InputFile
           currentFile={file}
           onFileChange={setFile}
           mediaType="image"
           placeholder="Selecione a foto"
           containerClassName="lg:col-span-12 md:w-[300px] mx-auto"
-        />
+        /> */}
 
         <Input
           {...form.register("name")}
