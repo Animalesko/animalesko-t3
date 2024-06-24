@@ -99,7 +99,8 @@ model Pet {
     birthdate       DateTime
     vaccinationCard String
 
-    photo String?
+    photo   Image?  @relation(fields: [photoId], references: [id])
+    photoId String?
 
     description String @db.Text
     petBreedId  String
@@ -186,4 +187,10 @@ model OpenPixFailedChargeCompleted {
     name                String
     email               String
     chargeCorrelationID String
+}
+
+model Image {
+    id String @id @default(uuid())
+
+    Pet Pet[]
 }

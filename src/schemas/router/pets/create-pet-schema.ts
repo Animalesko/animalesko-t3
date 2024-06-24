@@ -12,7 +12,7 @@ export const createPetSchema = z.object({
     .string()
     .refine((value) => !!value && value.length > 1, { message: "Obrigatório" }),
 
-  photo: z.string().optional(),
+  photoId: z.string().optional(),
 
   description: z
     .string()

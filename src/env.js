@@ -30,6 +30,12 @@ export const env = createEnv({
 
     OPEN_PIX_TOKEN: z.string(),
     OPEN_PIX_WEBHOOK_AUTHORIZATION_TOKEN: z.string(),
+
+    CLOUDFLARE_R2_REGION: z.string(),
+    CLOUDFLARE_R2_ACCOUNT_ID: z.string(),
+    CLOUDFLARE_R2_ACCESS_KEY_ID: z.string(),
+    CLOUDFLARE_R2_SECRET_ACCESS_KEY: z.string(),
+    CLOUDFLARE_R2_BUCKET_NAME: z.string(),
   },
 
   /**
@@ -71,6 +77,13 @@ export const env = createEnv({
     OPEN_PIX_TOKEN: process.env.OPEN_PIX_TOKEN,
     OPEN_PIX_WEBHOOK_AUTHORIZATION_TOKEN:
       process.env.OPEN_PIX_WEBHOOK_AUTHORIZATION_TOKEN,
+
+    CLOUDFLARE_R2_REGION: process.env.CLOUDFLARE_R2_REGION,
+    CLOUDFLARE_R2_ACCOUNT_ID: process.env.CLOUDFLARE_R2_ACCOUNT_ID,
+    CLOUDFLARE_R2_ACCESS_KEY_ID: process.env.CLOUDFLARE_R2_ACCESS_KEY_ID,
+    CLOUDFLARE_R2_SECRET_ACCESS_KEY:
+      process.env.CLOUDFLARE_R2_SECRET_ACCESS_KEY,
+    CLOUDFLARE_R2_BUCKET_NAME: process.env.CLOUDFLARE_R2_BUCKET_NAME,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
