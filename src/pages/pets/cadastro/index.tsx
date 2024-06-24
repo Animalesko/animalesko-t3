@@ -17,22 +17,62 @@ import { useEffect, useState } from "react";
 import { PetBreed } from "@prisma/client";
 import { SelectItem } from "@nextui-org/react";
 import { Select } from "~/components/form/select";
+import { InputFile } from "~/components/form/input-file";
+import { useFile } from "~/hooks/use-file";
 
 export default function Cadastro() {
   const form = useForm<CreatePetData>({
     resolver: zodResolver(createPetSchema),
   });
 
+  const { file, mediaType, setFile } = useFile();
+
   const listBreedsQuery = api.pets.listBreeds.useQuery();
   const createPetMutation = api.pets.create.useMutation();
+  const requestImageUrlMutation = api.images.requestUrl.useMutation();
 
   const onSubmit = (data: CreatePetData) => {
     toast
-      .promise(createPetMutation.mutateAsync(data).catch(console.error), {
-        success: "Pet cadastrado com sucesso.",
-        error: "Falha ao cadastrar pet",
-        loading: "Cadatrando pet...",
-      })
+      .promise(
+        new Promise<string | undefined>(async (resolve, reject) => {
+          try {
+            if (file === undefined) {
+              return resolve(undefined);
+            }
+
+            const { id } = await requestImageUrlMutation
+              .mutateAsync()
+              .then(async ({ url, id }) => {
+                await fetch(url, {
+                  method: "PUT",
+                  body: file,
+                  headers: {
+                    "Content-Type": file.type,
+                  },
+                });
+
+                return { id };
+              });
+            return resolve(id);
+          } catch (error) {
+            reject(error);
+          }
+        }).then((photoId) => {
+          if (!photoId) {
+            return createPetMutation.mutateAsync(data);
+          }
+
+          return createPetMutation.mutateAsync({
+            ...data,
+            photoId,
+          });
+        }),
+        {
+          success: "Pet cadastrado com sucesso.",
+          error: "Falha ao cadastrar pet",
+          loading: "Cadatrando pet...",
+        },
+      )
       .then(() => {
         form.reset();
       })
@@ -52,7 +92,13 @@ export default function Cadastro() {
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <Title title="Adicionar Pet" />
 
-        {/* <div className="col-span-12"></div> */}
+        <InputFile
+          currentFile={file}
+          onFileChange={setFile}
+          mediaType="image"
+          placeholder="Selecione a foto"
+          containerClassName="lg:col-span-12 md:w-[300px] mx-auto"
+        />
 
         <Input
           {...form.register("name")}
