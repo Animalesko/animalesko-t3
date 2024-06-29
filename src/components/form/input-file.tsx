@@ -2,6 +2,7 @@ import React, { forwardRef, useCallback } from "react";
 import { CameraIcon, Trash2Icon } from "lucide-react";
 import { type ClassNameValue } from "tailwind-merge";
 import { cn } from "~/utils/styles/cn";
+import imageCompression from "browser-image-compression";
 
 type InputProps = {
   containerClassName?: ClassNameValue;
@@ -36,7 +37,12 @@ export const InputFile = forwardRef<HTMLButtonElement, InputProps>(
       input.onchange = async (event) => {
         const file = (event.target as HTMLInputElement).files?.[0];
         if (file !== undefined) {
-          onFileChange?.(file);
+          const compressedFile = await imageCompression(file, {
+            maxSizeMB: 1,
+            useWebWorker: true,
+          });
+
+          onFileChange?.(compressedFile);
         }
       };
       input.click();

@@ -4,7 +4,6 @@ import { petviewsRouter } from "./routers/pet-views";
 import { userProfileRouter } from "./routers/user-profile";
 import { adoptionRouter } from "./routers/adoption";
 import { walletRouter } from "./routers/wallet";
-import { imagesRouter } from "./routers/images";
 
 /**
  * This is the primary router for your server.
@@ -17,7 +16,6 @@ export const appRouter = createTRPCRouter({
   userProfile: userProfileRouter,
   adoption: adoptionRouter,
   wallet: walletRouter,
-  images: imagesRouter,
 });
 
 // export type definition of API

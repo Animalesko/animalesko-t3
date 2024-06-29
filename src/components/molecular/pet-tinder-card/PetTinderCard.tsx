@@ -1,8 +1,8 @@
-import { Button, Card, CardBody } from "@nextui-org/react";
-import { Pet, PetView } from "@prisma/client";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Pet } from "@prisma/client";
 import { DateTime } from "luxon";
 import React from "react";
-import { HeartIcon } from "lucide-react";
+import { env } from "~/env";
 
 interface PetTinderCardProps {
   pet: Pet;
@@ -11,6 +11,14 @@ interface PetTinderCardProps {
 export const PetTinderCard: React.FC<PetTinderCardProps> = ({ pet }) => {
   return (
     <Card>
+      <CardHeader>
+        {pet.photoId && (
+          <img
+            src={`${env.NEXT_PUBLIC_CLOUDFLARE_R2_PUBLIC_PATH}/${pet.photoId}`}
+          />
+        )}
+      </CardHeader>
+
       <CardBody className="relative">
         <h2 className="text-3xl font-semibold">{pet.name}</h2>
 

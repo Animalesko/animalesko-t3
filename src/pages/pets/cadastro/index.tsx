@@ -19,8 +19,12 @@ import { SelectItem } from "@nextui-org/react";
 import { Select } from "~/components/form/select";
 import { InputFile } from "~/components/form/input-file";
 import { useFile } from "~/hooks/use-file";
+import axios from "axios";
+import { R2UploadResponse } from "~/schemas/api/R2UploadResponse";
+import { useRouter } from "next/router";
 
 export default function Cadastro() {
+  const router = useRouter();
   const form = useForm<CreatePetData>({
     resolver: zodResolver(createPetSchema),
   });
@@ -29,7 +33,6 @@ export default function Cadastro() {
 
   const listBreedsQuery = api.pets.listBreeds.useQuery();
   const createPetMutation = api.pets.create.useMutation();
-  const requestImageUrlMutation = api.images.requestUrl.useMutation();
 
   const onSubmit = (data: CreatePetData) => {
     toast
@@ -40,21 +43,14 @@ export default function Cadastro() {
               return resolve(undefined);
             }
 
-            const { id } = await requestImageUrlMutation
-              .mutateAsync()
-              .then(async ({ url, id }) => {
-                await fetch(url, {
-                  method: "PUT",
-                  body: file,
-                  headers: {
-                    "Content-Type": file.type,
-                    "Access-Control-Allow-Origin": "*",
-                  },
-                });
+            const formData = new FormData();
+            formData.append("file", file);
 
-                return { id };
-              });
-            return resolve(id);
+            const {
+              data: { imageId },
+            } = await axios.post<R2UploadResponse>("/api/r2/upload", formData);
+
+            resolve(imageId);
           } catch (error) {
             reject(error);
           }
@@ -76,6 +72,7 @@ export default function Cadastro() {
       )
       .then(() => {
         form.reset();
+        return router.push("/meus-pets");
       })
       .catch(console.error);
   };
@@ -93,13 +90,13 @@ export default function Cadastro() {
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <Title title="Adicionar Pet" />
 
-        {/* <InputFile
+        <InputFile
           currentFile={file}
           onFileChange={setFile}
           mediaType="image"
           placeholder="Selecione a foto"
           containerClassName="lg:col-span-12 md:w-[300px] mx-auto"
-        /> */}
+        />
 
         <Input
           {...form.register("name")}

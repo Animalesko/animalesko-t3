@@ -21,16 +21,22 @@ import { useRouter } from "next/router";
 import { DateTime } from "luxon";
 import { env } from "~/env";
 import { SingleActionCustomToast } from "~/components/molecular/toast-custom-action/SingleActionCustomToast";
+import { useFile } from "~/hooks/use-file";
+import { InputFile } from "~/components/form/input-file";
+import axios from "axios";
+import { R2UploadResponse } from "~/schemas/api/R2UploadResponse";
 
 export default function Cadastro() {
   const { query } = useRouter();
   const petId = query.id as string;
 
+  const { file, mediaType, setFile } = useFile();
+
   const form = useForm<CreatePetData>({
     resolver: zodResolver(createPetSchema),
   });
 
-  const fingByIdQuery = api.pets.findById.useQuery(
+  const findByIdQuery = api.pets.findById.useQuery(
     {
       id: petId,
     },
@@ -39,15 +45,40 @@ export default function Cadastro() {
     },
   );
   const listBreedsQuery = api.pets.listBreeds.useQuery();
-  const createPetMutation = api.pets.update.useMutation();
+  const updatePetMutation = api.pets.update.useMutation();
   const displayAdoptionMutation = api.adoption.displayAdoption.useMutation();
 
   const onSubmit = (data: CreatePetData) => {
     toast
       .promise(
-        createPetMutation
-          .mutateAsync({ ...data, id: petId })
-          .catch(console.error),
+        new Promise<string | undefined>(async (resolve, reject) => {
+          try {
+            if (file === undefined) {
+              return resolve(undefined);
+            }
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            const {
+              data: { imageId },
+            } = await axios.post<R2UploadResponse>("/api/r2/upload", formData);
+
+            resolve(imageId);
+          } catch (error) {
+            reject(error);
+          }
+        }).then((photoId) => {
+          if (!photoId) {
+            return updatePetMutation.mutateAsync({ ...data, id: petId });
+          }
+
+          return updatePetMutation.mutateAsync({
+            ...data,
+            id: petId,
+            photoId,
+          });
+        }),
         {
           loading: "Atualizando pet...",
           success: "Pet atualizado com sucesso.",
@@ -56,6 +87,7 @@ export default function Cadastro() {
       )
       .then(() => {
         form.reset();
+        return findByIdQuery.refetch();
       })
       .catch(console.error);
   };
@@ -87,25 +119,44 @@ export default function Cadastro() {
   }, [listBreedsQuery.data]);
 
   useEffect(() => {
-    if (fingByIdQuery.data) {
+    if (findByIdQuery.data) {
       form.reset({
-        name: fingByIdQuery.data.name,
-        petBreedId: fingByIdQuery.data.petBreedId,
-        birthdate: DateTime.fromJSDate(fingByIdQuery.data.birthdate, {
+        name: findByIdQuery.data.name,
+        petBreedId: findByIdQuery.data.petBreedId,
+        birthdate: DateTime.fromJSDate(findByIdQuery.data.birthdate, {
           zone: "utc",
         }).toFormat("yyyy-MM-dd") as unknown as Date,
-        vaccinationCard: fingByIdQuery.data.vaccinationCard,
-        description: fingByIdQuery.data.description,
+        vaccinationCard: findByIdQuery.data.vaccinationCard,
+        description: findByIdQuery.data.description,
       });
     }
-  }, [fingByIdQuery.data]);
+  }, [findByIdQuery.data]);
 
   return (
     <PrivateLayout
-      isLoading={fingByIdQuery.isFetching || listBreedsQuery.isFetching}
+      isLoading={findByIdQuery.isFetching || listBreedsQuery.isFetching}
     >
       <Form onSubmit={form.handleSubmit(onSubmit)}>
         <Title title="Editar Pet" />
+
+        {!file && (
+          <img
+            src={
+              findByIdQuery.data?.photoId
+                ? `${env.NEXT_PUBLIC_CLOUDFLARE_R2_PUBLIC_PATH}/${findByIdQuery.data?.photoId}`
+                : undefined
+            }
+            className="col-span-12 mx-auto max-w-full"
+          />
+        )}
+
+        <InputFile
+          currentFile={file}
+          onFileChange={setFile}
+          mediaType="image"
+          placeholder="Selecione a foto"
+          containerClassName="lg:col-span-12 md:w-[300px] mx-auto"
+        />
 
         <Input
           {...form.register("name")}
@@ -158,7 +209,7 @@ export default function Cadastro() {
           Enviar
         </Button>
 
-        {fingByIdQuery.data?.announce === false && (
+        {findByIdQuery.data?.announce === false && (
           <Button
             type="button"
             color="primary"
